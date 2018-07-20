@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import os
 
 place_holder = r'@PLACE_HOLDER'
+config = 'config.xml'
 
 
 def _make_tree(parent_file, child_file):
@@ -21,11 +22,10 @@ def _make_tree(parent_file, child_file):
 
 
 def _get_config_files(directory):
-    config = 'config.xml'
     for dirpath, _, filenames in os.walk(directory):
-        for file in filenames:
-            if config == file:
-                yield os.path.abspath(os.path.join(dirpath, file))
+        generator = filter(lambda file: file == config, filenames)
+        for file in generator:
+            yield os.path.abspath(os.path.join(dirpath, file))
 
 
 if __name__ == '__main__':
